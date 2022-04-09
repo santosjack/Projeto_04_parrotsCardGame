@@ -1,34 +1,35 @@
 let pairs = [
   {
-    class: 'parrot1',
-    src: './images/pair1.gif'
-  } ,
+    class: "parrot1",
+    src: "./images/pair1.gif",
+  },
   {
-    class: 'parrot2',
-    src: './images/pair2.gif'
-  } ,
+    class: "parrot2",
+    src: "./images/pair2.gif",
+  },
   {
-    class: 'parrot3',
-    src: './images/pair3.gif'
-  } ,
+    class: "parrot3",
+    src: "./images/pair3.gif",
+  },
   {
-    class: 'parrot4',
-    src: './images/pair4.gif'
-  } ,
+    class: "parrot4",
+    src: "./images/pair4.gif",
+  },
   {
-    class: 'parrot5',
-    src: './images/pair5.gif'
-  } ,
+    class: "parrot5",
+    src: "./images/pair5.gif",
+  },
   {
-    class: 'parrot6',
-    src: './images/pair6.gif'
-  } ,
+    class: "parrot6",
+    src: "./images/pair6.gif",
+  },
   {
-    class: 'parrot7',
-    src: './images/pair7.gif'
-  }
-
+    class: "parrot7",
+    src: "./images/pair7.gif",
+  },
 ];
+
+let numbersOfPlays = 0;
 
 //Função para solicitar número de cards do jogo
 function cardsNumber() {
@@ -48,34 +49,37 @@ function generateCards(numb) {
 
   let cards = [];
 
-  
-  for (let i = 0; i < numb/2; i++) {
-    
+  for (let i = 0; i < numb / 2; i++) {
     cards.push(
-       `<div onclick="flip(this)"class="card ${pairs[i].class}">
+      `<div onclick="flip(this)"class="card ${pairs[i].class}">
           <div class="front">
             <img src="./front.png" alt="">
           </div>
           <div class="back">
             <img src="${pairs[i].src}" alt="">
           </div>
-        </div>`);
+        </div>`
+    );
 
-        cards.push(
-          `<div onclick="flip(this)"class="card ${pairs[i].class}">
+    cards.push(
+      `<div onclick="flip(this)"class="card ${pairs[i].class}">
              <div class="front">
                <img src="./front.png" alt="">
              </div>
              <div class="back">
                <img src="${pairs[i].src}" alt="">
              </div>
-           </div>`);
- }
+           </div>`
+    );
+  }
 
   cards.sort(comparador);
-  
-  for(item of cards){
+
+  for (item of cards) {
     container.innerHTML += item;
+    if(cards.indexOf(item) ==  (cards.length/2)-1){
+      container.innerHTML += '<div class="break"></div>';
+    }
   }
 }
 
@@ -94,7 +98,7 @@ function flip(el) {
 
       if (list.length > 0) {
         for (item of list) {
-          if (el.classList.value == item.classList.value) {
+          if (el.classList + "" == item.classList + "") {
             el.classList.remove("selected");
             el.classList.add("found");
             item.classList.remove("selected");
@@ -112,9 +116,24 @@ function flip(el) {
       }
     }
   }
+
+  setTimeout(countPlays, 500);
+}
+
+function countPlays() {
+  let numbersOfCards = [...document.querySelectorAll(".card")];
+  let numbersOfFounds = [...document.querySelectorAll(".found")];
+
+  if (numbersOfCards.length >= numbersOfFounds.length) {
+    numbersOfPlays++;
+  }
+
+  if (numbersOfCards.length == numbersOfFounds.length) {
+    alert(`Você ganhou em ${numbersOfPlays} jogadas!`);
+  }
 }
 
 //Função auxiliar do embaralhador de cards
-function comparador() { 
-	return Math.random() - 0.5; 
+function comparador() {
+  return Math.random() - 0.5;
 }
