@@ -29,6 +29,14 @@ body {
   margin-top: 5%;
 }
 
+.container .timer{
+  position: fixed;
+  top: 2%;
+  right: 1%;
+  color: #75b79e;
+  font-size: 1.5rem;
+}
+
 .card-container {
   margin-top: 7%;
   width: 100%;

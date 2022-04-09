@@ -1,3 +1,4 @@
+//Array de pares e src's
 let pairs = [
   {
     class: "parrot1",
@@ -29,8 +30,10 @@ let pairs = [
   },
 ];
 
+//variáveis globais
 let numbersOfPlays = 0;
 let ended = false;
+let idTimer = undefined;
 
 //Função para solicitar número de cards do jogo
 function cardsNumber() {
@@ -42,7 +45,7 @@ function cardsNumber() {
   generateCards(cards);
 }
 
-//Função para gerar os cards no container
+//Função para gerar os cards no container e chama a contagem do tempo
 function generateCards(numb) {
   const container = document.querySelector(".card-container");
 
@@ -78,10 +81,12 @@ function generateCards(numb) {
 
   for (item of cards) {
     container.innerHTML += item;
-    if(cards.indexOf(item) ==  (cards.length/2)-1){
+    if (cards.indexOf(item) == cards.length / 2 - 1) {
       container.innerHTML += '<div class="break"></div>';
     }
   }
+
+  idTimer = setInterval(countTime, 1000);
 }
 
 //Função chamada quando a carta é clicada
@@ -118,12 +123,12 @@ function flip(el) {
     }
   }
 
-  if(!ended){
+  if (!ended) {
     setTimeout(countPlays, 500);
   }
-  
 }
 
+//Função que conta as jogadas realizadas até o jogo terminar
 function countPlays() {
   let numbersOfCards = [...document.querySelectorAll(".card")];
   let numbersOfFounds = [...document.querySelectorAll(".found")];
@@ -134,7 +139,42 @@ function countPlays() {
 
   if (numbersOfCards.length == numbersOfFounds.length) {
     ended = true;
-    alert(`Você ganhou em ${numbersOfPlays} jogadas!`);
+  }
+}
+
+//Função que conta o tempo até o jogo terminar
+//Ao terminar, informa o número de jogadas e tempo levado
+function countTime() {
+  let timer = document.querySelector(".timer");
+
+  if (!ended) {
+    timer.innerHTML = Number(timer.innerHTML) + 1;
+  } else {
+    clearInterval(idTimer);
+    alert(
+      `Você ganhou em ${numbersOfPlays} jogadas e em ${timer.innerHTML} segundos!`
+    );
+    restartGame();
+  }
+}
+
+//Função que questiona se o usuário quer iniciar um novo jogo
+function restartGame() {
+  let pass,
+    confirm = false;
+  while (!pass) {
+    const resp = prompt("Deseja iniciar novo game? R:(sim/não)");
+    if (resp === "sim" || resp === "não") {
+      pass = true;
+
+      if (resp === "sim") {
+        confirm = true;
+      }
+    }
+  }
+
+  if (confirm) {
+    location.reload();
   }
 }
 
