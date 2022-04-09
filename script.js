@@ -30,6 +30,7 @@ let pairs = [
 ];
 
 let numbersOfPlays = 0;
+let ended = false;
 
 //Função para solicitar número de cards do jogo
 function cardsNumber() {
@@ -117,7 +118,10 @@ function flip(el) {
     }
   }
 
-  setTimeout(countPlays, 500);
+  if(!ended){
+    setTimeout(countPlays, 500);
+  }
+  
 }
 
 function countPlays() {
@@ -129,6 +133,7 @@ function countPlays() {
   }
 
   if (numbersOfCards.length == numbersOfFounds.length) {
+    ended = true;
     alert(`Você ganhou em ${numbersOfPlays} jogadas!`);
   }
 }
